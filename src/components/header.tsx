@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import {
   Download,
   Globe,
-  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,10 +18,9 @@ interface HeaderProps {
   onExport: (format: 'pdf' | 'word') => void;
   onTranslate: (language: string) => void;
   isPlanGenerated: boolean;
-  showGetStarted?: boolean;
 }
 
-export default function Header({ onExport, onTranslate, isPlanGenerated, showGetStarted = false }: HeaderProps) {
+export default function Header({ onExport, onTranslate, isPlanGenerated }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -62,13 +59,6 @@ export default function Header({ onExport, onTranslate, isPlanGenerated, showGet
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
-          ) : showGetStarted ? (
-            <Link href="/create">
-              <Button>
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
           ) : null }
           <ThemeToggle />
         </div>
