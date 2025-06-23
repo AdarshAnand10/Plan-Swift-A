@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CheckCircle2, Star } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
@@ -21,25 +21,25 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      name: "Sarah L.",
+      name: "Alex Johnson",
       title: "Startup Founder",
-      quote: "This tool is a game-changer. I went from a blank page to a professional business plan in a single afternoon. The AI suggestions were incredibly helpful.",
-      avatar: "https://placehold.co/100x100.png",
-      hint: "woman portrait"
-    },
-    {
-      name: "Mike T.",
-      title: "Small Business Owner",
-      quote: "I've always struggled with the financial parts of a business plan. PlanForge AI made it so simple to create realistic projections. Highly recommended!",
+      quote: "PlanInsta is a game-changer. I went from a blank page to a professional business plan in a single afternoon. The AI suggestions were incredibly helpful.",
       avatar: "https://placehold.co/100x100.png",
       hint: "man portrait"
     },
     {
-        name: "Jessica P.",
+      name: "Samantha Lee",
+      title: "Small Business Owner",
+      quote: "I've always struggled with the financial parts of a business plan. PlanInsta made it so simple to create realistic projections. Highly recommended!",
+      avatar: "https://placehold.co/100x100.png",
+      hint: "woman portrait"
+    },
+    {
+        name: "David Chen",
         title: "Entrepreneur",
         quote: "As a non-writer, I was dreading this task. The app's structure and AI assistance gave me the confidence to create a plan that I'm proud to show investors.",
         avatar: "https://placehold.co/100x100.png",
-        hint: "woman smiling"
+        hint: "man smiling"
     },
   ];
 
@@ -77,14 +77,11 @@ export default function LandingPage() {
                     <h2 className="font-headline text-3xl md:text-4xl font-bold">Everything you need to create a winning plan</h2>
                     <p className="text-lg text-muted-foreground mt-2">Powerful features to help you succeed.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12 max-w-6xl mx-auto">
                     {features.map((feature, index) => (
                         <div key={index} className="flex items-start space-x-4">
                             <CheckCircle2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                            <div>
-                                <h3 className="font-semibold text-lg">{feature}</h3>
-                                <p className="text-muted-foreground text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
+                            <h3 className="font-semibold text-lg">{feature}</h3>
                         </div>
                     ))}
                 </div>
@@ -95,7 +92,7 @@ export default function LandingPage() {
             <div className="container mx-auto px-4">
                  <div className="text-center mb-12">
                     <h2 className="font-headline text-3xl md:text-4xl font-bold">Loved by founders worldwide</h2>
-                    <p className="text-lg text-muted-foreground mt-2">See what our users are saying about PlanForge AI.</p>
+                    <p className="text-lg text-muted-foreground mt-2">See what our users are saying about PlanInsta.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     {testimonials.map((t, i) => (

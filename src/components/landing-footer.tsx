@@ -8,7 +8,7 @@ export default function LandingFooter() {
         <div className="flex items-center gap-2">
           <Logo className="h-6 w-auto" />
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} PlanForge AI. All rights reserved.
+            &copy; {new Date().getFullYear()} PlanInsta. All rights reserved.
           </p>
         </div>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">

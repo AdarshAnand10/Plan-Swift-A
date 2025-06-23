@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'PlanForge AI',
+  title: 'PlanInsta',
   description: 'Generate business plans with the power of AI',
 };
 
