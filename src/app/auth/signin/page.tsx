@@ -1,6 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,22 +19,58 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/logo";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 export default function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      if (isSigningUp) {
+        await createUserWithEmailAndPassword(auth, email, password);
+        // After signup, Firebase automatically signs the user in,
+        // so we can proceed to the same post-login destination.
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+      }
+      router.push("/preview");
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Authentication Failed",
+        description: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="mx-auto max-w-sm w-full">
         <CardHeader className="text-center space-y-2">
           <Link href="/" className="inline-block">
-             <Logo className="h-8 w-auto mx-auto" />
+            <Logo className="h-8 w-auto mx-auto" />
           </Link>
-          <CardTitle className="text-2xl font-headline">Login</CardTitle>
+          <CardTitle className="text-2xl font-headline">
+            {isSigningUp ? "Create an Account" : "Login"}
+          </CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            {isSigningUp
+              ? "Enter your email and password to sign up"
+              : "Enter your email below to login to your account"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form onSubmit={handleSubmit} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -35,22 +78,25 @@ export default function SignInPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required />
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
+              />
             </div>
-            <Button type="submit" className="w-full" asChild>
-              <Link href="/dashboard">Login</Link>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSigningUp ? "Sign Up" : "Login"}
             </Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -62,15 +108,19 @@ export default function SignInPage() {
                 </span>
               </div>
             </div>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" disabled={isLoading}>
               Login with Google
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="#" className="underline">
-              Sign up
-            </Link>
+            {isSigningUp ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button
+              onClick={() => setIsSigningUp(!isSigningUp)}
+              className="underline"
+              disabled={isLoading}
+            >
+              {isSigningUp ? "Login" : "Sign up"}
+            </button>
           </div>
         </CardContent>
       </Card>

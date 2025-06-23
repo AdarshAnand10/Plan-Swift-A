@@ -8,6 +8,7 @@ import BusinessPlanForm from "@/components/business-plan-form";
 import BusinessPlanDisplay from "@/components/business-plan-display";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
+import ProtectedRoute from "@/components/protected-route";
 
 export default function DashboardPage() {
   const [plan, setPlan] = useState<BusinessPlan | null>(null);
@@ -68,31 +69,33 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Header 
-        onExport={handleExport} 
-        onTranslate={handleTranslate} 
-        isPlanGenerated={!!plan}
-      />
-      <main className="flex-grow container mx-auto p-4 md:p-8">
-        {!plan && !isLoading && (
-          <BusinessPlanForm
-            onPlanGenerated={handlePlanGenerated}
-            setIsLoading={setIsLoading}
-            onError={handleError}
-          />
-        )}
-        {isLoading && <LoadingState />}
-        {plan && (
-          <BusinessPlanDisplay 
-            plan={plan} 
-            setPlan={handlePlanUpdate} 
-            editCounts={editCounts}
-            onEdit={handleEditCount}
-          />
-        )}
-      </main>
-    </div>
+    <ProtectedRoute>
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header 
+          onExport={handleExport} 
+          onTranslate={handleTranslate} 
+          isPlanGenerated={!!plan}
+        />
+        <main className="flex-grow container mx-auto p-4 md:p-8">
+          {!plan && !isLoading && (
+            <BusinessPlanForm
+              onPlanGenerated={handlePlanGenerated}
+              setIsLoading={setIsLoading}
+              onError={handleError}
+            />
+          )}
+          {isLoading && <LoadingState />}
+          {plan && (
+            <BusinessPlanDisplay 
+              plan={plan} 
+              setPlan={handlePlanUpdate} 
+              editCounts={editCounts}
+              onEdit={handleEditCount}
+            />
+          )}
+        </main>
+      </div>
+    </ProtectedRoute>
   );
 }
 
