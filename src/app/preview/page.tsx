@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/protected-route";
 import { useAuth } from "@/hooks/useAuth";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CheckCircle2, Star } from "lucide-react";
 import PreviewHeader from "@/components/preview-header";
@@ -71,14 +70,19 @@ export default function PreviewPage() {
               Continue to Dashboard
             </Button>
             <div className="mt-16 mx-auto max-w-5xl">
-              <Image
-                  src="https://placehold.co/1200x600.png"
-                  alt="Dashboard preview"
-                  width={1200}
-                  height={600}
-                  className="rounded-xl shadow-2xl ring-1 ring-white/10"
-                  data-ai-hint="business analytics"
-                />
+              <Card className="bg-card/40 backdrop-blur-sm p-8 border-2 border-primary/20 shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
+                  <CardHeader>
+                    <CardTitle className="font-headline text-2xl text-center text-foreground">Your Future Business Plan</CardTitle>
+                    <CardDescription className="text-center">A glimpse of your AI-generated professional plan.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-muted-foreground space-y-4 text-sm mt-4">
+                    <h4 className="font-bold text-foreground">1. Executive Summary</h4>
+                    <p>PlanInsta will revolutionize the startup ecosystem by offering AI-powered business plan generation. Our mission is to provide intuitive, powerful tools that empower entrepreneurs to secure funding and achieve their vision...</p>
+                    <h4 className="font-bold text-foreground">2. Market Analysis</h4>
+                    <p>The target market includes early-stage startups and small business owners, a segment that often lacks the resources for professional business planning services. Our competitive advantage lies in our speed, quality, and affordability...</p>
+                  </CardContent>
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-card/40 to-transparent" />
+              </Card>
             </div>
           </section>
 
