@@ -30,14 +30,24 @@ export default function SignInPage() {
   const router = useRouter();
   const { toast } = useToast();
 
+  const isFirebaseReady = !!auth;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isFirebaseReady) {
+      toast({
+        variant: "destructive",
+        title: "Service Not Available",
+        description:
+          "Authentication is not configured. Please contact support.",
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       if (isSigningUp) {
         await createUserWithEmailAndPassword(auth, email, password);
-        // After signup, Firebase automatically signs the user in,
-        // so we can proceed to the same post-login destination.
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
@@ -64,7 +74,9 @@ export default function SignInPage() {
             {isSigningUp ? "Create an Account" : "Login"}
           </CardTitle>
           <CardDescription>
-            {isSigningUp
+            {!isFirebaseReady
+              ? "Authentication is temporarily unavailable."
+              : isSigningUp
               ? "Enter your email and password to sign up"
               : "Enter your email below to login to your account"}
           </CardDescription>
@@ -80,7 +92,7 @@ export default function SignInPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || !isFirebaseReady}
               />
             </div>
             <div className="grid gap-2">
@@ -91,10 +103,14 @@ export default function SignInPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || !isFirebaseReady}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || !isFirebaseReady}
+            >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isSigningUp ? "Sign Up" : "Login"}
             </Button>
@@ -108,7 +124,11 @@ export default function SignInPage() {
                 </span>
               </div>
             </div>
-            <Button variant="outline" className="w-full" disabled={isLoading}>
+            <Button
+              variant="outline"
+              className="w-full"
+              disabled={isLoading || !isFirebaseReady}
+            >
               Login with Google
             </Button>
           </form>
@@ -117,7 +137,7 @@ export default function SignInPage() {
             <button
               onClick={() => setIsSigningUp(!isSigningUp)}
               className="underline"
-              disabled={isLoading}
+              disabled={isLoading || !isFirebaseReady}
             >
               {isSigningUp ? "Login" : "Sign up"}
             </button>

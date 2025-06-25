@@ -27,11 +27,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    // Only subscribe if Firebase was initialized
+    if (auth) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setUser(user);
+        setLoading(false);
+      });
+      return () => unsubscribe();
+    } else {
+      // If Firebase isn't configured, we're not loading user data
       setLoading(false);
-    });
-    return () => unsubscribe();
+    }
   }, []);
 
   return (
