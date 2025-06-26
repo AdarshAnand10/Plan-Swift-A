@@ -1,20 +1,14 @@
-'use client';
-import { useState } from 'react';
-import { supabaseBrowser } from '@/lib/supabase-browser';
+// src/app/auth/signin/page.tsx
+'use client'
+
+import { supabase } from '@/lib/supabase/browser'
+
+import SignInForm from '@/components/SignInForm'
 
 export default function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSignIn = async () => {
-    const { error } = await supabaseBrowser().auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
-  };
-
   return (
-    <div className="container">
-      {error && <p className="error">{error}</p>}
-      {/* Inputs for email/password and sign-in button */}
+    <div className="max-w-md mx-auto mt-20 p-6 border rounded-md">
+      <SignInForm />
     </div>
-  );
+  )
 }
