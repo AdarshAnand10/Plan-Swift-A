@@ -1,13 +1,20 @@
 'use client';
-export const dynamic = 'force-dynamic';
-
-import { Suspense } from 'react';
-import SignInWithParams from './SignInWithParams';
+import { useState } from 'react';
+import { supabaseBrowser } from '@/lib/supabase-browser';
 
 export default function SignInPage() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSignIn = async () => {
+    const { error } = await supabaseBrowser().auth.signInWithPassword({ email, password });
+    if (error) setError(error.message);
+  };
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SignInWithParams />
-    </Suspense>
+    <div className="container">
+      {error && <p className="error">{error}</p>}
+      {/* Inputs for email/password and sign-in button */}
+    </div>
   );
 }
